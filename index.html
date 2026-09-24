@@ -83,7 +83,6 @@
           <img src="/favicon.svg" alt="" width="34" height="34" />
           <h1 class="brand-title">
             Markdown Previewer
-            <span class="brand-tagline">Live GitHub Flavored Markdown, right in your browser</span>
           </h1>
         </a>
 
@@ -115,6 +114,8 @@
           <div class="pane-bar">
             <h2 class="pane-title" id="editor-title">Markdown</h2>
             <div class="toolbar" id="toolbar" role="toolbar" aria-label="Formatting" aria-controls="editor"></div>
+            <span class="toolbar-sep" aria-hidden="true"></span>
+            <button type="button" class="tool" id="btn-line-numbers" data-icon="lineNumbers" aria-pressed="true" aria-label="Line numbers" title="Line numbers"></button>
           </div>
           <div class="editor-wrap">
             <pre class="editor-highlight" id="editor-highlight" aria-hidden="true"></pre>
@@ -133,11 +134,27 @@
           </p>
         </section>
 
+        <div
+          class="split-handle"
+          id="split-handle"
+          role="separator"
+          tabindex="0"
+          aria-orientation="vertical"
+          aria-controls="editor-pane"
+          aria-label="Resize editor and preview"
+          title="Drag to resize · double-click to reset"
+        ></div>
+
         <section class="pane preview-pane" id="preview-pane" aria-labelledby="preview-title">
           <div class="pane-bar">
             <h2 class="pane-title" id="preview-title">Preview</h2>
             <div class="preview-actions">
-              <button type="button" class="tool" id="btn-sync" data-icon="scrollSync" aria-pressed="true" aria-label="Sync scrolling" title="Sync scrolling"></button>
+              <button type="button" class="tool tool--label" id="btn-sync" data-icon="scrollSync" aria-pressed="true" title="Keep the preview aligned with the editor">
+                <span class="tool-label">Sync scrolling</span>
+              </button>
+              <button type="button" class="tool tool--label" id="btn-zen" data-icon="zen" aria-haspopup="dialog" title="Read the preview without distractions">
+                <span class="tool-label">Zen mode</span>
+              </button>
             </div>
           </div>
           <div class="preview-scroll" id="preview-scroll" tabindex="0" aria-labelledby="preview-title">
@@ -312,6 +329,12 @@
 
     <input type="file" id="file-input" accept=".md,.markdown,.mdown,.mkd,.mkdn,.mdx,.txt,text/markdown,text/plain" hidden />
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <dialog class="zen" id="zen-dialog" aria-label="Zen mode preview">
+      <button type="button" class="zen-close" id="btn-zen-close" data-icon="close" aria-label="Exit zen mode" title="Exit zen mode (Esc)"></button>
+      <div class="zen-body" id="zen-body"></div>
+      <p class="zen-hint" aria-hidden="true">Press <kbd>Esc</kbd> to exit</p>
+    </dialog>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

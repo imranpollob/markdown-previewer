@@ -12,7 +12,10 @@ A fast, private Markdown editor with a live GitHub Flavored Markdown preview. It
 - Open, drag-and-drop or paste `.md` files (up to 2 MB); download as `.md`
 - Export a standalone HTML page, or copy the rendered HTML
 - Autosave to `localStorage`
-- Line-accurate scroll sync
+- Line-accurate scroll sync (toggle in the preview bar)
+- Line numbers that follow soft-wrapped lines (toggle in the editor bar)
+- Resizable split: drag the divider, use arrow keys on it, or double-click to reset
+- Zen mode: read the preview in a centred, distraction-free modal (Esc to exit)
 - Toolbar and keyboard shortcuts, smart list continuation, Tab indentation
 - Light and dark themes (follows the OS by default)
 - Mobile layout with Write / Preview tabs

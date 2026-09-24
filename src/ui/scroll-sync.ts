@@ -2,8 +2,9 @@
  * Line-accurate scroll sync between the textarea and the preview.
  *
  * Both panes are reduced to monotonic (sourceLine -> pixelOffset) tables:
- *  - editor: a hidden mirror element measures where each source line starts,
- *    accounting for soft-wrapping;
+ *  - editor: where each source line starts (including soft-wrapping), read from
+ *    the highlight overlay's per-line blocks, or from a hidden mirror if the
+ *    overlay is off;
  *  - preview: every rendered block carries `data-line` (see source-lines plugin).
  * Scrolling one pane maps its top edge to a fractional source line, then to
  * the other pane's offset by linear interpolation.
@@ -34,8 +35,8 @@ function interpolate(xs: number[], ys: number[], x: number): number {
 }
 
 const MIRRORED_STYLES = [
-  'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight',
-  'tabSize', 'textIndent', 'textTransform', 'wordSpacing', 'wordBreak', 'overflowWrap',
+  'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'fontVariantLigatures', 'letterSpacing',
+  'lineHeight', 'tabSize', 'textIndent', 'textTransform', 'wordSpacing', 'wordBreak', 'overflowWrap', 'whiteSpace',
   'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
 ] as const;
 
@@ -46,10 +47,17 @@ export interface ScrollSync {
   invalidatePreview(): void;
   /** Align the preview to the editor's current position. */
   syncPreviewToEditor(): void;
+  /** Align the editor to the preview's current position. */
+  syncEditorToPreview(): void;
   setEnabled(enabled: boolean): void;
 }
 
-export function createScrollSync(editor: HTMLTextAreaElement, preview: HTMLElement): ScrollSync {
+export function createScrollSync(
+  editor: HTMLTextAreaElement,
+  preview: HTMLElement,
+  /** The highlight overlay (one block per source line), if present. */
+  overlay?: () => HTMLElement | null,
+): ScrollSync {
   let enabled = true;
   let active: 'editor' | 'preview' = 'editor';
   let editorPoints: Points | null = null;
@@ -72,10 +80,29 @@ export function createScrollSync(editor: HTMLTextAreaElement, preview: HTMLEleme
   const isVisible = (element: HTMLElement) => element.clientHeight > 0;
   const maxScroll = (element: HTMLElement) => Math.max(0, element.scrollHeight - element.clientHeight);
 
+  /** Exact line offsets from the highlight overlay's per-line blocks, when it is showing. */
+  function measureFromOverlay(lineCount: number): Points | null {
+    const layer = overlay?.();
+    if (!layer || layer.children.length !== lineCount || !isVisible(layer)) return null;
+    const top = layer.getBoundingClientRect().top - layer.scrollTop;
+    const points: Points = { lines: [], offsets: [] };
+    for (let i = 0; i < lineCount; i++) {
+      points.lines.push(i);
+      points.offsets.push(layer.children[i]!.getBoundingClientRect().top - top);
+    }
+    return points;
+  }
+
   function measureEditor(): Points {
+    const fromOverlay = measureFromOverlay(editor.value.split('\n').length);
+    if (fromOverlay) return fromOverlay;
+
+    // Fallback (plain mode for huge documents): lay the text out in a hidden mirror.
     const style = getComputedStyle(editor);
     for (const property of MIRRORED_STYLES) mirror.style[property] = style[property];
-    mirror.style.width = `${editor.clientWidth}px`;
+    // Fractional width (clientWidth rounds), minus any scrollbar, so wrapping matches exactly.
+    const scrollbar = editor.offsetWidth - editor.clientWidth;
+    mirror.style.width = `${editor.getBoundingClientRect().width - scrollbar}px`;
 
     const lines = editor.value.split('\n');
     const fragment = document.createDocumentFragment();
@@ -87,10 +114,11 @@ export function createScrollSync(editor: HTMLTextAreaElement, preview: HTMLEleme
     mirror.replaceChildren(fragment);
 
     const rows = mirror.children;
+    const mirrorTop = mirror.getBoundingClientRect().top;
     const points: Points = { lines: [], offsets: [] };
     for (let i = 0; i < rows.length; i++) {
       points.lines.push(i);
-      points.offsets.push((rows[i] as HTMLElement).offsetTop);
+      points.offsets.push(rows[i]!.getBoundingClientRect().top - mirrorTop);
     }
     mirror.replaceChildren(); // free memory; offsets are cached
     return points;
@@ -182,6 +210,11 @@ export function createScrollSync(editor: HTMLTextAreaElement, preview: HTMLEleme
     syncPreviewToEditor() {
       active = 'editor';
       syncFrom('editor');
+    },
+    syncEditorToPreview() {
+      previewPoints = null;
+      active = 'preview';
+      syncFrom('preview');
     },
     setEnabled(value) {
       enabled = value;

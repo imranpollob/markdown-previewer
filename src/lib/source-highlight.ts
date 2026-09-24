@@ -73,6 +73,33 @@ function highlightSegment(segment: Segment, hljs: HLJSApi): string {
   }
 }
 
+const TOKEN = /<span[^>]*>|<\/span>|\n|[^<\n]+/g;
+
+/**
+ * Splits highlighted HTML into one balanced HTML string per source line: spans
+ * that cross a newline are closed at the end of the line and reopened on the next.
+ */
+export function splitLines(html: string): string[] {
+  const lines: string[] = [];
+  const open: string[] = [];
+  let line = '';
+
+  for (const [token] of html.matchAll(TOKEN)) {
+    if (token === '\n') {
+      lines.push(line + '</span>'.repeat(open.length));
+      line = open.join('');
+    } else if (token === '</span>') {
+      open.pop();
+      line += token;
+    } else {
+      if (token.startsWith('<span')) open.push(token);
+      line += token;
+    }
+  }
+  lines.push(line);
+  return lines;
+}
+
 const cache = new Map<string, string>();
 const MAX_CACHE_ENTRIES = 2000;
 

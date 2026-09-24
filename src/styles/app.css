@@ -119,16 +119,6 @@ svg { flex: none; }
   white-space: nowrap;
 }
 
-.brand-tagline {
-  display: block;
-  margin-top: 2px;
-  font-family: var(--font-family);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-normal);
-  color: var(--color-text-muted);
-}
-
 .header-actions {
   display: flex;
   flex-wrap: wrap;
@@ -207,10 +197,50 @@ svg { flex: none; }
   position: relative;
   display: grid;
   flex: 1;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns:
+    minmax(0, var(--split-left, 1fr))
+    12px
+    minmax(0, var(--split-right, 1fr));
   min-height: 0;
   padding: 0 var(--gutter);
+}
+
+/* ---------- Split handle ---------- */
+
+.split-handle {
+  position: relative;
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+}
+.split-handle::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 44px;
+  content: "";
+  background: var(--color-border);
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  transition: background-color 120ms, height 120ms;
+}
+.split-handle:hover::before,
+.is-resizing .split-handle::before {
+  height: 72px;
+  background: var(--color-primary);
+}
+.split-handle:focus-visible::before {
+  width: 6px;
+  height: 72px;
+  background: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.is-resizing,
+.is-resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
 }
 
 .pane {
@@ -225,6 +255,7 @@ svg { flex: none; }
   border-radius: var(--pane-radius);
   box-shadow: var(--shadow-sm);
   transition: border-color 120ms, box-shadow 120ms;
+  container-type: inline-size;
 }
 .pane:focus-within {
   border-color: var(--color-primary);
@@ -278,6 +309,30 @@ svg { flex: none; }
 .tool svg { width: 18px; height: 18px; }
 .tool[aria-pressed="true"] { color: var(--accent-text); background: var(--tint); }
 
+.tool--label {
+  display: inline-flex;
+  gap: 6px;
+  width: auto;
+  padding: 0 10px 0 8px;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* Labels collapse to icons when the pane is narrow (they stay readable to screen readers). */
+@container (max-width: 460px) {
+  .tool--label { width: 32px; padding: 0; justify-content: center; }
+  .tool-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 .toolbar-sep {
   flex: none;
   width: 1px;
@@ -289,10 +344,21 @@ svg { flex: none; }
 /* The textarea's text is transparent; the highlighted <pre> underneath shows it.
    Both must share every metric that affects layout, or the caret drifts. */
 .editor-wrap {
+  --editor-font-size: 14.5px;
+  --editor-line-height: 1.7;
+  --editor-pad-x: 24px;
+  /* Width of the line-number column; `ch` resolves in the monospace font. */
+  --line-gutter: calc(var(--line-digits, 2) * 1ch + 22px);
+  --text-inset: var(--editor-pad-x);
+
   position: relative;
   flex: 1;
   min-height: 0;
+  font-family: var(--font-mono);
+  font-size: var(--editor-font-size);
 }
+
+.editor-wrap.show-line-numbers:not(.is-plain) { --text-inset: calc(var(--line-gutter) + 14px); }
 
 .editor,
 .editor-highlight {
@@ -300,15 +366,15 @@ svg { flex: none; }
   inset: 0;
   width: 100%;
   height: 100%;
-  padding: 20px 24px 40vh;
+  padding: 20px var(--editor-pad-x) 40vh var(--text-inset);
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-gutter: stable;
   font-family: var(--font-mono);
-  font-size: 14.5px;
+  font-size: var(--editor-font-size);
   font-variant-ligatures: none;
-  line-height: 1.7;
+  line-height: var(--editor-line-height);
   letter-spacing: normal;
   tab-size: 2;
   white-space: pre-wrap;
@@ -325,6 +391,38 @@ svg { flex: none; }
 }
 /* Weight/style changes can alter glyph advance in some browsers; colour only. */
 .editor-highlight * { font-weight: inherit !important; font-style: inherit !important; }
+
+/* One block per source line: an empty line still takes one row, and wrapped
+   lines grow, so line numbers always sit next to the start of their line. */
+.editor-highlight { counter-reset: line; }
+.editor-highlight .line {
+  position: relative;
+  min-height: calc(var(--editor-font-size) * var(--editor-line-height));
+  counter-increment: line;
+}
+
+.show-line-numbers:not(.is-plain) .line::before {
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--text-inset));
+  width: var(--line-gutter);
+  padding-right: 12px;
+  color: var(--color-text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  content: counter(line);
+  opacity: 0.75;
+}
+
+/* Fixed gutter band behind the numbers. */
+.show-line-numbers:not(.is-plain)::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--line-gutter);
+  content: "";
+  background: color-mix(in srgb, var(--color-surface) 70%, var(--pane-bg));
+  border-right: 1px solid var(--color-border);
+}
 
 .editor {
   z-index: 1;
@@ -623,6 +721,104 @@ kbd {
 .github-link:hover { color: var(--color-text); background: var(--tint); }
 .github-link svg { width: 22px; height: 22px; }
 
+/* ---------- Zen mode ---------- */
+
+.zen {
+  width: min(900px, calc(100vw - 48px));
+  height: calc(100dvh - 64px);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  margin: auto;
+  overflow: hidden;
+  color: var(--color-text);
+  background: var(--pane-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  box-shadow: 0 30px 90px rgb(0 0 0 / 0.3);
+}
+.zen[open] {
+  display: flex;
+  flex-direction: column;
+  animation: zen-in 220ms ease-out;
+}
+.zen::backdrop {
+  /* Fallback for browsers where ::backdrop doesn't inherit custom properties. */
+  background: var(--zen-backdrop, rgb(4 16 15 / 0.9));
+  backdrop-filter: blur(12px);
+}
+:root { --zen-backdrop: rgb(236 253 251 / 0.92); }
+[data-theme="dark"] { --zen-backdrop: rgb(4 12 11 / 0.92); }
+
+.zen-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.zen-body .preview-scroll { flex: 1; }
+.zen .preview-scroll .markdown-body {
+  max-width: 66ch;
+  padding: 72px 40px 30vh;
+  margin: 0 auto;
+  font-size: var(--font-size-md);
+}
+
+.zen-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: color-mix(in srgb, var(--pane-bg) 85%, transparent);
+  border: 1px solid transparent;
+  border-radius: 50%;
+  opacity: 0.55;
+  transition: opacity 150ms, border-color 150ms, color 150ms;
+}
+.zen-close:hover,
+.zen-close:focus-visible {
+  color: var(--color-text);
+  border-color: var(--color-border);
+  opacity: 1;
+}
+.zen-close svg { width: 18px; height: 18px; }
+
+.zen-hint {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  margin: 0;
+  padding: 6px 14px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  pointer-events: none;
+  background: var(--pane-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  transform: translateX(-50%);
+  animation: zen-hint 3.2s ease forwards;
+}
+
+/* No scale: the reading position is measured while this runs. */
+@keyframes zen-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+/* Touch devices have no Esc key; the close button is enough. */
+@media (hover: none) {
+  .zen-hint { display: none; }
+}
+
+@keyframes zen-hint {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1100px) {
@@ -639,15 +835,21 @@ kbd {
 
 @media (max-width: 860px) {
   .app { min-height: 480px; }
-  .brand-tagline { display: none; }
   .brand-title { font-size: var(--font-size-lg); }
   .brand img { width: 30px; height: 30px; }
   .pane-switch { display: flex; }
   .workspace { grid-template-columns: minmax(0, 1fr); }
   .workspace[data-view="editor"] .preview-pane,
   .workspace[data-view="preview"] .editor-pane { display: none; }
-  .editor,
-  .editor-highlight { padding: 16px 16px 40vh; }
+  .editor-wrap { --editor-pad-x: 16px; }
+  .split-handle { display: none; }
+  .zen {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+  .zen .preview-scroll .markdown-body { padding: 64px 20px 30vh; font-size: var(--font-size-base); }
   .preview-scroll .markdown-body { padding: 20px 18px 40vh; }
   .about { padding-top: 56px; }
   .about h2 { font-size: var(--font-size-2xl); }
@@ -667,4 +869,5 @@ kbd {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .zen[open] { animation: none; }
 }

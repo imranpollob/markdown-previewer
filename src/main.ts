@@ -33,8 +33,10 @@ import { attachEditorHighlight } from './ui/editor-highlight';
 import { hydrateIcons, icon, type IconName } from './ui/icons';
 import { patchChildren } from './ui/patch';
 import { createScrollSync } from './ui/scroll-sync';
+import { initSplit } from './ui/split';
 import { initThemeToggle } from './ui/theme';
 import { toast } from './ui/toast';
+import { initZenMode } from './ui/zen';
 
 const byId = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -57,7 +59,7 @@ initThemeToggle(byId<HTMLButtonElement>('btn-theme'));
 /** Base name of the file the user opened, used for downloads. */
 let openedFileName = readSetting('filename');
 editor.value = readSetting('document') ?? SAMPLE_DOCUMENT;
-attachEditorHighlight(editor, byId('editor-highlight'));
+attachEditorHighlight(editor, byId('editor-highlight')); // before scroll sync, which measures its lines
 
 function documentName(): string {
   return openedFileName ?? toFileName(firstHeading(editor.value) ?? 'document');
@@ -98,7 +100,8 @@ function replaceDocument(text: string): void {
 
 /* --------------------------------------------------------------- rendering */
 
-const scrollSync = createScrollSync(editor, previewScroll);
+const highlightLayer = byId('editor-highlight');
+const scrollSync = createScrollSync(editor, previewScroll, () => highlightLayer);
 const EMPTY_PREVIEW = '<p class="preview-empty">Nothing to preview yet. Start typing in the editor.</p>';
 
 function render(): void {
@@ -424,6 +427,32 @@ preview.addEventListener('click', (event) => {
     target.scrollIntoView({ block: 'start', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
   }
 });
+
+initZenMode({
+  button: byId('btn-zen'),
+  dialog: byId<HTMLDialogElement>('zen-dialog'),
+  body: byId('zen-body'),
+  closeButton: byId('btn-zen-close'),
+  scroller: previewScroll,
+  onClose: () => scrollSync.syncEditorToPreview(),
+});
+
+/* ------------------------------------------------------------------ editor */
+
+const lineNumbersButton = byId<HTMLButtonElement>('btn-line-numbers');
+function setLineNumbers(enabled: boolean): void {
+  editor.parentElement!.classList.toggle('show-line-numbers', enabled);
+  lineNumbersButton.setAttribute('aria-pressed', String(enabled));
+  lineNumbersButton.title = enabled ? 'Hide line numbers' : 'Show line numbers';
+}
+setLineNumbers(readSetting('line-numbers') !== 'off');
+lineNumbersButton.addEventListener('click', () => {
+  const enabled = lineNumbersButton.getAttribute('aria-pressed') !== 'true';
+  writeSetting('line-numbers', enabled ? 'on' : 'off');
+  setLineNumbers(enabled);
+});
+
+initSplit(workspace, byId('split-handle'));
 
 const syncButton = byId<HTMLButtonElement>('btn-sync');
 function setScrollSync(enabled: boolean): void {

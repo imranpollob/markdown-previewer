@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import hljs from './hljs-bundle';
-import { highlightSource, segmentSource } from './source-highlight';
+import { highlightSource, segmentSource, splitLines } from './source-highlight';
 
 /** Text content of highlighted HTML — must equal the source for the overlay to line up. */
 function textOf(html: string): string {
@@ -62,6 +62,22 @@ describe('highlightSource', () => {
   it('highlights fenced code in its own language', () => {
     const html = highlightSource('```ts\nconst x = 1;\n```', hljs);
     expect(html).toContain('<span class="hljs-keyword">const</span>');
+  });
+
+  it('splits into one balanced HTML line per source line', () => {
+    const source = SAMPLE + '\n';
+    const lines = splitLines(highlightSource(source, hljs));
+    expect(lines.map(textOf)).toEqual(source.split('\n'));
+    for (const line of lines) {
+      expect(line.match(/<span/g)?.length ?? 0).toBe(line.match(/<\/span>/g)?.length ?? 0);
+    }
+  });
+
+  it('reopens spans that cross a newline', () => {
+    expect(splitLines('<span class="a">x\ny</span>z')).toEqual([
+      '<span class="a">x</span>',
+      '<span class="a">y</span>z',
+    ]);
   });
 
   it('escapes HTML so typed markup is never live', () => {
