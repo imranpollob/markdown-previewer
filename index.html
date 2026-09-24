@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src * data: blob:; media-src * data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <title>Markdown Previewer – Free Online Markdown Editor with Live Preview</title>
+    <meta
+      name="description"
+      content="Free online Markdown previewer with live GitHub Flavored Markdown preview, syntax highlighting, file upload and HTML export. Runs entirely in your browser, nothing is uploaded."
+    />
+    <link rel="canonical" href="__SITE_URL__" />
+    <meta name="author" content="__AUTHOR_NAME__" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Markdown Previewer" />
+    <meta property="og:title" content="Markdown Previewer – Live GitHub Flavored Markdown Editor" />
+    <meta
+      property="og:description"
+      content="Write Markdown and see it rendered instantly. Tables, task lists, code highlighting, file upload and HTML export. Free and private."
+    />
+    <meta property="og:url" content="__SITE_URL__" />
+    <meta property="og:image" content="__SITE_URL__og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Markdown Previewer: live GitHub Flavored Markdown preview in your browser" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Markdown Previewer – Live GitHub Flavored Markdown Editor" />
+    <meta
+      name="twitter:description"
+      content="Write Markdown and see it rendered instantly. Free, private and right in your browser."
+    />
+    <meta name="twitter:image" content="__SITE_URL__og-image.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#ecfdfb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#071311" media="(prefers-color-scheme: dark)" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Markdown Previewer",
+        "url": "__SITE_URL__",
+        "description": "Free online Markdown previewer with live GitHub Flavored Markdown preview, syntax highlighting, file upload and HTML export. Runs entirely in the browser.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and a modern web browser.",
+        "isAccessibleForFree": true,
+        "image": "__SITE_URL__og-image.png",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "featureList": [
+          "Live GitHub Flavored Markdown preview",
+          "Syntax highlighting for code blocks",
+          "Open and drag-and-drop Markdown files",
+          "Export to HTML and copy HTML",
+          "Autosave in the browser",
+          "Dark mode"
+        ],
+        "author": { "@type": "Person", "name": "__AUTHOR_NAME__", "url": "__AUTHOR_URL__" }
+      }
+    </script>
+
+    <script src="/theme-init.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#editor">Skip to editor</a>
+
+    <div class="app">
+      <header class="app-header">
+        <a class="brand" href="./" aria-label="Markdown Previewer home">
+          <img src="/favicon.svg" alt="" width="34" height="34" />
+          <h1 class="brand-title">
+            Markdown Previewer
+            <span class="brand-tagline">Live GitHub Flavored Markdown, right in your browser</span>
+          </h1>
+        </a>
+
+        <div class="header-actions">
+          <button type="button" class="btn" id="btn-open" data-icon="open" aria-keyshortcuts="Control+O">
+            <span class="btn-label">Open</span>
+          </button>
+          <button type="button" class="btn" id="btn-copy-html" data-icon="copy">
+            <span class="btn-label">Copy HTML</span>
+          </button>
+          <button type="button" class="btn" id="btn-export-html" data-icon="fileCode">
+            <span class="btn-label">Export HTML</span>
+          </button>
+          <button type="button" class="btn btn--primary" id="btn-save" data-icon="download" aria-keyshortcuts="Control+S">
+            <span class="btn-label">Download .md</span>
+          </button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="btn btn--icon" id="btn-theme" aria-label="Switch theme"></button>
+        </div>
+      </header>
+
+      <div class="pane-switch" role="tablist" aria-label="View">
+        <button type="button" role="tab" id="tab-editor" aria-controls="editor-pane" aria-selected="true">Write</button>
+        <button type="button" role="tab" id="tab-preview" aria-controls="preview-pane" aria-selected="false" tabindex="-1">Preview</button>
+      </div>
+
+      <main class="workspace" id="workspace" data-view="editor">
+        <section class="pane editor-pane" id="editor-pane" aria-labelledby="editor-title">
+          <div class="pane-bar">
+            <h2 class="pane-title" id="editor-title">Markdown</h2>
+            <div class="toolbar" id="toolbar" role="toolbar" aria-label="Formatting" aria-controls="editor"></div>
+          </div>
+          <textarea
+            id="editor"
+            class="editor"
+            aria-labelledby="editor-title"
+            aria-describedby="editor-hint"
+            placeholder="Type or paste Markdown here, or drop a .md file…"
+            spellcheck="true"
+            autocapitalize="sentences"
+          ></textarea>
+          <p id="editor-hint" class="visually-hidden">
+            Tab indents. Press Escape, then Tab, to move focus out of the editor.
+          </p>
+        </section>
+
+        <section class="pane preview-pane" id="preview-pane" aria-labelledby="preview-title">
+          <div class="pane-bar">
+            <h2 class="pane-title" id="preview-title">Preview</h2>
+            <div class="preview-actions">
+              <button type="button" class="tool" id="btn-sync" data-icon="scrollSync" aria-pressed="true" aria-label="Sync scrolling" title="Sync scrolling"></button>
+            </div>
+          </div>
+          <div class="preview-scroll" id="preview-scroll" tabindex="0" aria-labelledby="preview-title">
+            <article class="markdown-body" id="preview">
+              <noscript>
+                <p>Markdown Previewer needs JavaScript to render your Markdown. Everything runs locally in your browser.</p>
+              </noscript>
+            </article>
+          </div>
+        </section>
+
+        <div class="drop-overlay" aria-hidden="true">
+          <p data-icon="upload">Drop to open <small>.md, .markdown or .txt, up to 2 MB</small></p>
+        </div>
+      </main>
+
+      <footer class="statusbar" aria-label="Document statistics">
+        <span><output id="stat-words">0</output> words</span>
+        <span><output id="stat-chars">0</output> characters</span>
+        <span><output id="stat-lines">0</output> lines</span>
+        <span><output id="stat-reading">0</output> min read</span>
+        <span class="save-status" id="save-status" data-state="saved">Saved in this browser</span>
+      </footer>
+    </div>
+
+    <section class="about" aria-labelledby="about-title">
+      <p class="eyebrow">Free online Markdown editor</p>
+      <h2 id="about-title">Preview Markdown instantly, right in your browser</h2>
+      <p class="lede">
+        Markdown Previewer is a fast, private Markdown editor with a live preview. Type, paste or open a
+        Markdown file and see it rendered side by side as you write, with the same GitHub
+        Flavored Markdown (GFM) you use in README files, issues and docs.
+      </p>
+
+      <div class="about-section" aria-labelledby="features-title">
+        <h2 id="features-title">Features</h2>
+        <ul class="features">
+          <li class="feature">
+            <span class="feature-icon" data-icon="eye"></span>
+            <h3>Live GitHub Flavored Markdown</h3>
+            <p>Tables, task lists, strikethrough, autolinks, footnotes and fenced code blocks, rendered as you type.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="code"></span>
+            <h3>Syntax highlighting</h3>
+            <p>Code blocks are highlighted in more than 25 languages, including JavaScript, TypeScript, Python, Go, Rust, SQL and Bash.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="upload"></span>
+            <h3>Open, drop and download files</h3>
+            <p>Open a <code>.md</code> file, drag and drop it onto the editor, then download your changes as Markdown.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="fileCode"></span>
+            <h3>Export to HTML</h3>
+            <p>Download a styled, standalone HTML page, or copy clean HTML to paste into a CMS, email or blog.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="lock"></span>
+            <h3>Private by design</h3>
+            <p>No account and no server. Files are read in your browser and your work is autosaved on this device only.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="shield"></span>
+            <h3>Safe rendering</h3>
+            <p>All HTML is sanitized with DOMPurify, so previewing an untrusted README can’t run scripts.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="scrollSync"></span>
+            <h3>Scroll sync</h3>
+            <p>The preview follows the editor line by line, even past tall images, tables and code blocks.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon" data-icon="keyboard"></span>
+            <h3>Keyboard friendly</h3>
+            <p>Formatting shortcuts, smart list continuation, Tab indentation, and light and dark themes.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="about-section" aria-labelledby="how-title">
+        <h2 id="how-title">How to preview a Markdown file</h2>
+        <ol class="steps">
+          <li>
+            <h3>Add your Markdown</h3>
+            <p>Type or paste into the editor, click <strong>Open</strong>, or drop a <code>.md</code> file onto the page.</p>
+          </li>
+          <li>
+            <h3>Edit with a live preview</h3>
+            <p>Use the toolbar or shortcuts. The rendered preview updates on every keystroke.</p>
+          </li>
+          <li>
+            <h3>Save or export</h3>
+            <p>Download the <code>.md</code> file, export a standalone HTML page, or copy the HTML.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="about-section" aria-labelledby="shortcuts-title">
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+        <table class="shortcuts">
+          <thead>
+            <tr><th scope="col">Action</th><th scope="col">Windows / Linux</th><th scope="col">macOS</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Bold</td><td><kbd>Ctrl</kbd> <kbd>B</kbd></td><td><kbd>⌘</kbd> <kbd>B</kbd></td></tr>
+            <tr><td>Italic</td><td><kbd>Ctrl</kbd> <kbd>I</kbd></td><td><kbd>⌘</kbd> <kbd>I</kbd></td></tr>
+            <tr><td>Link</td><td><kbd>Ctrl</kbd> <kbd>K</kbd></td><td><kbd>⌘</kbd> <kbd>K</kbd></td></tr>
+            <tr><td>Inline code</td><td><kbd>Ctrl</kbd> <kbd>E</kbd></td><td><kbd>⌘</kbd> <kbd>E</kbd></td></tr>
+            <tr><td>Strikethrough</td><td><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>X</kbd></td><td><kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>X</kbd></td></tr>
+            <tr><td>Indent / outdent</td><td><kbd>Tab</kbd> / <kbd>Shift</kbd> <kbd>Tab</kbd></td><td><kbd>Tab</kbd> / <kbd>Shift</kbd> <kbd>Tab</kbd></td></tr>
+            <tr><td>Open file</td><td><kbd>Ctrl</kbd> <kbd>O</kbd></td><td><kbd>⌘</kbd> <kbd>O</kbd></td></tr>
+            <tr><td>Download .md</td><td><kbd>Ctrl</kbd> <kbd>S</kbd></td><td><kbd>⌘</kbd> <kbd>S</kbd></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="about-section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <div class="faq">
+          <details>
+            <summary>Is Markdown Previewer free?</summary>
+            <p>Yes. It is completely free, with no sign-up, no ads and no limits beyond a 2 MB file size.</p>
+          </details>
+          <details>
+            <summary>Are my files uploaded to a server?</summary>
+            <p>
+              No. Files are read directly by your browser and your text never leaves your device. The page has
+              no backend at all.
+            </p>
+          </details>
+          <details>
+            <summary>Is my work saved?</summary>
+            <p>
+              Your document is autosaved to your browser’s local storage, so it is still there after a refresh.
+              Clearing site data removes it, so download a <code>.md</code> copy of anything important.
+            </p>
+          </details>
+          <details>
+            <summary>What is GitHub Flavored Markdown?</summary>
+            <p>
+              GitHub Flavored Markdown (GFM) is the Markdown dialect used on GitHub. It extends standard Markdown
+              with tables, task lists, strikethrough, autolinks and fenced code blocks.
+            </p>
+          </details>
+          <details>
+            <summary>Can I preview a README.md before pushing it?</summary>
+            <p>
+              Yes. Open or drop your <code>README.md</code> to see how headings, tables, task lists and code blocks
+              will look before you commit.
+            </p>
+          </details>
+          <details>
+            <summary>Is raw HTML in Markdown supported?</summary>
+            <p>
+              Common HTML such as <code>&lt;details&gt;</code>, <code>&lt;kbd&gt;</code> and
+              <code>&lt;img&gt;</code> works. Scripts, event handlers and styles are stripped for safety.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>
+        Made by <a href="__AUTHOR_URL__">__AUTHOR_NAME__</a> ·
+        <a href="__REPO_URL__">Source on GitHub</a>
+      </p>
+    </footer>
+
+    <input type="file" id="file-input" accept=".md,.markdown,.mdown,.mkd,.mkdn,.mdx,.txt,text/markdown,text/plain" hidden />
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

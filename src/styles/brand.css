@@ -1,0 +1,87 @@
+:root {
+  /* Brand Scale */
+  --brand-50: #ecfdfb;
+  --brand-100: #ccfbf1;
+  --brand-200: #99f6e4;
+  --brand-300: #5eead4;
+  --brand-400: #2dd4bf;
+  --brand-500: #14b8a6;
+  --brand-600: #0d9488;
+  --brand-700: #0f766e;
+  --brand-800: #115e59;
+  --brand-900: #134e4a;
+  --brand-950: #042f2e;
+
+  /* Semantic */
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+
+  --color-background: #ecfdfb;
+  --color-surface: #f8fafc;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #cbd5e1;
+
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #dc2626;
+  --color-info: #0284c7;
+
+  /* Typography */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'JetBrains Mono', monospace;
+  --base-font-size: 16px;
+  --font-size-nav: 0.875rem;
+
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.875rem;
+  --font-size-3xl: 2.25rem;
+  --font-size-4xl: 2.75rem;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Line Heights */
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.55;
+  --line-height-relaxed: 1.7;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.05em;
+  --letter-spacing-widest: 0.12em;
+
+  /* Shared UI */
+  --radius: 8px;
+  --spacing-unit: 4px;
+}
+
+[data-theme="dark"] {
+  --color-primary: #14b8a6;
+  --color-primary-hover: #2dd4bf;
+
+  --color-background: #071311;
+  --color-surface: #0d1f1c;
+  --color-text: #f0fdfa;
+  --color-text-muted: #94a3b8;
+  --color-border: #1f3a35;
+
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #38bdf8;
+}
