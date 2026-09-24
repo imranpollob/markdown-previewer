@@ -19,6 +19,11 @@ export function loadHighlighter(): Promise<HLJSApi> {
   return loading;
 }
 
+/** The highlighter if it has loaded, otherwise null. */
+export function getHighlighter(): HLJSApi | null {
+  return hljs;
+}
+
 /** Called once the highlighter has loaded, so the preview can re-render. */
 export function onHighlighterReady(listener: () => void): void {
   readyListeners.add(listener);

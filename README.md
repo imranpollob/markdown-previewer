@@ -7,7 +7,8 @@ A fast, private Markdown editor with a live GitHub Flavored Markdown preview. It
 ## Features
 
 - Split-pane editor with live GFM preview (tables, task lists, strikethrough, autolinks, footnotes)
-- Syntax highlighting for 25+ languages, loaded lazily
+- Syntax-highlighted Markdown source in the editor (fenced code is highlighted in its own language)
+- Syntax highlighting for 25+ languages in the preview, loaded lazily
 - Open, drag-and-drop or paste `.md` files (up to 2 MB); download as `.md`
 - Export a standalone HTML page, or copy the rendered HTML
 - Autosave to `localStorage`

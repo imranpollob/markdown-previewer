@@ -1,7 +1,8 @@
 /* Syntax-highlighting palette for highlight.js tokens, tuned for both themes
    (all colours meet 4.5:1 against the code background). */
 
-.markdown-body {
+.markdown-body,
+.editor-highlight {
   --hl-comment: #64748b;
   --hl-keyword: #7c3aed;
   --hl-string: #0f766e;
@@ -17,7 +18,7 @@
   --hl-del-bg: #fee2e2;
 }
 
-[data-theme="dark"] .markdown-body {
+[data-theme="dark"] :is(.markdown-body, .editor-highlight) {
   --hl-comment: #94a3b8;
   --hl-keyword: #c4b5fd;
   --hl-string: #5eead4;
@@ -35,6 +36,8 @@
 
 .hljs-comment,
 .hljs-quote { color: var(--hl-comment); font-style: italic; }
+
+.hljs-code { color: var(--hl-string); }
 
 .hljs-keyword,
 .hljs-selector-tag,

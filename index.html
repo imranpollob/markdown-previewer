@@ -116,15 +116,18 @@
             <h2 class="pane-title" id="editor-title">Markdown</h2>
             <div class="toolbar" id="toolbar" role="toolbar" aria-label="Formatting" aria-controls="editor"></div>
           </div>
-          <textarea
-            id="editor"
-            class="editor"
-            aria-labelledby="editor-title"
-            aria-describedby="editor-hint"
-            placeholder="Type or paste Markdown here, or drop a .md file…"
-            spellcheck="true"
-            autocapitalize="sentences"
-          ></textarea>
+          <div class="editor-wrap">
+            <pre class="editor-highlight" id="editor-highlight" aria-hidden="true"></pre>
+            <textarea
+              id="editor"
+              class="editor"
+              aria-labelledby="editor-title"
+              aria-describedby="editor-hint"
+              placeholder="Type or paste Markdown here, or drop a .md file…"
+              spellcheck="true"
+              autocapitalize="sentences"
+            ></textarea>
+          </div>
           <p id="editor-hint" class="visually-hidden">
             Tab indents. Press Escape, then Tab, to move focus out of the editor.
           </p>
@@ -180,7 +183,7 @@
           <li class="feature">
             <span class="feature-icon" data-icon="code"></span>
             <h3>Syntax highlighting</h3>
-            <p>Code blocks are highlighted in more than 25 languages, including JavaScript, TypeScript, Python, Go, Rust, SQL and Bash.</p>
+            <p>Your Markdown source is highlighted as you type, and code blocks are highlighted in more than 25 languages, including JavaScript, TypeScript, Python, Go, Rust, SQL and Bash.</p>
           </li>
           <li class="feature">
             <span class="feature-icon" data-icon="upload"></span>

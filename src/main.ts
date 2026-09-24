@@ -29,6 +29,7 @@ import { firstHeading, renderMarkdown } from './lib/markdown';
 import { computeStats } from './lib/stats';
 import { readSetting, writeSetting } from './lib/storage';
 import { SAMPLE_DOCUMENT } from './sample';
+import { attachEditorHighlight } from './ui/editor-highlight';
 import { hydrateIcons, icon, type IconName } from './ui/icons';
 import { patchChildren } from './ui/patch';
 import { createScrollSync } from './ui/scroll-sync';
@@ -56,6 +57,7 @@ initThemeToggle(byId<HTMLButtonElement>('btn-theme'));
 /** Base name of the file the user opened, used for downloads. */
 let openedFileName = readSetting('filename');
 editor.value = readSetting('document') ?? SAMPLE_DOCUMENT;
+attachEditorHighlight(editor, byId('editor-highlight'));
 
 function documentName(): string {
   return openedFileName ?? toFileName(firstHeading(editor.value) ?? 'document');

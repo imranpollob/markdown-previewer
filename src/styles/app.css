@@ -286,23 +286,70 @@ svg { flex: none; }
   background: var(--color-border);
 }
 
-.editor {
+/* The textarea's text is transparent; the highlighted <pre> underneath shows it.
+   Both must share every metric that affects layout, or the caret drifts. */
+.editor-wrap {
+  position: relative;
   flex: 1;
-  width: 100%;
   min-height: 0;
+}
+
+.editor,
+.editor-highlight {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   padding: 20px 24px 40vh;
   margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   font-family: var(--font-mono);
   font-size: 14.5px;
+  font-variant-ligatures: none;
   line-height: 1.7;
-  color: var(--color-text);
+  letter-spacing: normal;
   tab-size: 2;
-  resize: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
   background: transparent;
   border: 0;
+}
+
+.editor-highlight {
+  overflow-y: hidden;
+  color: var(--color-text);
+  pointer-events: none;
+}
+/* Weight/style changes can alter glyph advance in some browsers; colour only. */
+.editor-highlight * { font-weight: inherit !important; font-style: inherit !important; }
+
+.editor {
+  z-index: 1;
+  color: transparent;
+  caret-color: var(--color-text);
+  resize: none;
   outline: none;
 }
+.editor::selection { color: transparent; }
 .editor::placeholder { color: var(--color-text-muted); }
+
+.is-plain .editor { color: var(--color-text); }
+.is-plain .editor-highlight { display: none; }
+
+/* Markdown source tokens (the palette variables live in highlight.css). */
+.editor-highlight .hljs-section { color: var(--accent-text); }
+.editor-highlight .hljs-bullet { color: var(--hl-number); }
+.editor-highlight .hljs-strong { color: var(--hl-tag); }
+.editor-highlight .hljs-emphasis { color: var(--hl-keyword); }
+.editor-highlight .hljs-code { color: var(--hl-string); }
+.editor-highlight .hljs-quote { color: var(--hl-comment); }
+.editor-highlight .hljs-string { color: var(--hl-title); }
+.editor-highlight .hljs-link { color: var(--hl-attr); text-decoration: none; }
+.editor-highlight .hljs-symbol { color: var(--hl-attr); }
+.editor-highlight .hljs-meta { color: var(--hl-meta); }
 
 .preview-actions {
   display: flex;
@@ -599,7 +646,8 @@ kbd {
   .workspace { grid-template-columns: minmax(0, 1fr); }
   .workspace[data-view="editor"] .preview-pane,
   .workspace[data-view="preview"] .editor-pane { display: none; }
-  .editor { padding: 16px 16px 40vh; }
+  .editor,
+  .editor-highlight { padding: 16px 16px 40vh; }
   .preview-scroll .markdown-body { padding: 20px 18px 40vh; }
   .about { padding-top: 56px; }
   .about h2 { font-size: var(--font-size-2xl); }
