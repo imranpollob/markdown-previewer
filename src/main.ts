@@ -3,7 +3,7 @@ import '@fontsource/plus-jakarta-sans/400-italic.css';
 import '@fontsource/plus-jakarta-sans/500.css';
 import '@fontsource/plus-jakarta-sans/600.css';
 import '@fontsource/plus-jakarta-sans/700.css';
-import '@fontsource/playfair-display/700.css';
+import '@fontsource/outfit/700.css';
 import './styles/brand.css';
 import './styles/app.css';
 import './styles/markdown.css';

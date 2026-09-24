@@ -41,13 +41,18 @@ function seo(): Plugin {
   };
 }
 
-export default defineConfig({
-  base: new URL(SITE_URL).pathname,
+export default defineConfig(({ command, isPreview }) => ({
+  // Dev server runs at http://localhost:5173/; builds (and `vite preview` of them)
+  // live under the GitHub Pages project path (/markdown-previewer/).
+  base: command === 'serve' && !isPreview ? '/' : new URL(SITE_URL).pathname,
   plugins: [seo()],
+  server: {
+    port: 5173,
+  },
   build: {
     target: 'es2022',
   },
   test: {
     environment: 'jsdom',
   },
-});
+}));

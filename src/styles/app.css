@@ -550,13 +550,31 @@ kbd {
 .faq details p { margin: 0; padding: 0 18px 16px; color: var(--color-text-muted); }
 
 .site-footer {
-  padding: 28px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 52px;
+  padding: 8px var(--gutter);
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
-  text-align: center;
   border-top: 1px solid var(--color-border);
 }
-.site-footer p { margin: 0; }
+.site-footer p { margin: 0; white-space: nowrap; }
+.site-footer p a { font-weight: var(--font-weight-semibold); text-decoration: none; }
+.site-footer p a:hover { text-decoration: underline; }
+
+.github-link {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius);
+  transition: color 120ms, background-color 120ms;
+}
+.github-link:hover { color: var(--color-text); background: var(--tint); }
+.github-link svg { width: 22px; height: 22px; }
 
 /* ---------- Responsive ---------- */
 

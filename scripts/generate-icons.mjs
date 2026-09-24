@@ -36,8 +36,8 @@ const og = `
   <circle cx="1130" cy="40" r="260" fill="#99f6e4" opacity="0.35"/>
   <circle cx="1180" cy="620" r="180" fill="#5eead4" opacity="0.18"/>
   <rect x="72" y="72" width="8" height="486" rx="4" fill="#0d9488"/>
-  <text x="400" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="700" fill="#0f172a">Markdown</text>
-  <text x="400" y="345" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="700" fill="#0f172a">Previewer</text>
+  <text x="398" y="250" font-family="Outfit, 'Segoe UI', Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-1.5" fill="#0f172a">Markdown</text>
+  <text x="398" y="345" font-family="Outfit, 'Segoe UI', Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-1.5" fill="#0f172a">Previewer</text>
   <text x="402" y="415" font-family="'Segoe UI', Arial, sans-serif" font-size="32" fill="#334155">Live GitHub Flavored Markdown preview.</text>
   <text x="402" y="458" font-family="'Segoe UI', Arial, sans-serif" font-size="32" fill="#334155">Free, private, right in your browser.</text>
   <text x="402" y="540" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="600" fill="#0f766e">imranpollob.github.io/markdown-previewer</text>

@@ -28,9 +28,10 @@ All rendered HTML (typed, pasted or uploaded) is parsed with markdown-it first a
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173/markdown-previewer/
+npm run dev      # http://localhost:5173/
 npm test         # unit tests (Vitest + jsdom)
-npm run build    # type-check + production build into dist/
+npm run build    # type-check + production build into dist/ (base path /markdown-previewer/)
+npm run preview  # serve the production build at http://localhost:4173/markdown-previewer/
 npm run icons    # regenerate PNG icons + og-image.png from public/favicon.svg
 ```
 
