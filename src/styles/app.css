@@ -307,6 +307,8 @@ svg { flex: none; }
 }
 .tool:hover { color: var(--accent-text); background: var(--tint); }
 .tool svg { width: 18px; height: 18px; }
+.tool--danger, .tool--danger:hover { color: #dc2626; }
+.tool--danger:hover { background: rgb(220 38 38 / 0.12); }
 .tool[aria-pressed="true"] { color: var(--accent-text); background: var(--tint); }
 
 .tool--label {

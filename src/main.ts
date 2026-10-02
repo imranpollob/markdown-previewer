@@ -439,6 +439,12 @@ initZenMode({
 
 /* ------------------------------------------------------------------ editor */
 
+byId<HTMLButtonElement>('btn-clear').addEventListener('click', () => {
+  if (!editor.value) return;
+  replaceDocument('');
+  editor.focus();
+});
+
 const lineNumbersButton = byId<HTMLButtonElement>('btn-line-numbers');
 function setLineNumbers(enabled: boolean): void {
   editor.parentElement!.classList.toggle('show-line-numbers', enabled);
