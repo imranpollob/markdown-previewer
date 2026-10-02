@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it';
 import footnote from 'markdown-it-footnote';
 import { highlightCode } from './highlight';
 import { headingIds, inlineText } from './plugins/heading-ids';
+import { math } from './plugins/math';
 import { sourceLines } from './plugins/source-lines';
 import { taskLists } from './plugins/task-lists';
 import { sanitize } from './sanitize';
@@ -15,6 +16,7 @@ const md = MarkdownIt({
   .use(footnote)
   .use(taskLists)
   .use(headingIds)
+  .use(math)
   .use(sourceLines);
 
 export interface RenderOptions {

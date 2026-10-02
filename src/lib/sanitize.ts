@@ -10,6 +10,9 @@ const CONFIG = {
   SANITIZE_NAMED_PROPS: true,
   // <style> would restyle the whole app; <form> has no place in a document preview.
   FORBID_TAGS: ['style', 'form'],
+  // KaTeX's MathML carries the TeX source in <annotation>, which DOMPurify drops
+  // but would keep the text of, duplicating every formula for screen readers.
+  ADD_FORBID_CONTENTS: ['annotation'],
 };
 
 let hooksInstalled = false;

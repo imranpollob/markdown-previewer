@@ -187,3 +187,11 @@
 .markdown-body .footnotes-sep { margin-top: 2.5em; }
 .markdown-body .footnotes { font-size: 0.875em; color: var(--color-text-muted); }
 .markdown-body .footnote-ref a { text-decoration: none; }
+
+.markdown-body .math-block {
+  overflow-x: auto;
+  overflow-y: hidden; /* tall glyphs would otherwise add a vertical scrollbar */
+  margin: 1em 0;
+}
+/* The scroll container stops margin collapsing; .math-block already spaces it. */
+.markdown-body .math-block > .katex-display { margin: 0; }

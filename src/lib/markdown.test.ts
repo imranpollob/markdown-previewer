@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { loadHighlighter } from './highlight';
 import { firstHeading, renderMarkdown } from './markdown';
 import { slugify } from './plugins/heading-ids';
+import { SAMPLE_DOCUMENT } from '../sample';
 
 const render = (source: string) => renderMarkdown(source, { sourceLines: false });
 
@@ -137,5 +138,55 @@ describe('syntax highlighting', () => {
   it('escapes code in unknown languages', () => {
     const html = render('```nope\n<b>hi</b>\n```');
     expect(html).toContain('&lt;b&gt;hi&lt;/b&gt;');
+  });
+});
+
+describe('math', () => {
+  it('renders latex fences with KaTeX', () => {
+    const root = dom(render('```latex\n\\mathrm{vk}(c)=x \\;\\wedge\\; A \\Longrightarrow E\n```'));
+    expect(root.querySelector('.math-block .katex-display')).not.toBeNull();
+    expect(root.querySelector('pre')).toBeNull();
+  });
+
+  it('renders $$ blocks, one-line and multi-line', () => {
+    const root = dom(render('$$ a^2+b^2 $$\n\n$$\nx=1\n$$'));
+    expect(root.querySelectorAll('.math-block .katex-display')).toHaveLength(2);
+  });
+
+  it('renders inline $...$ but leaves currency alone', () => {
+    const root = dom(render('Let $x^2$ cost $5 and $6 total'));
+    expect(root.querySelectorAll('.katex')).toHaveLength(1);
+    expect(root.textContent).toContain('$5 and $6');
+  });
+
+  it('does not treat $ inside code spans as math', () => {
+    expect(dom(render('`$x$`')).querySelector('.katex')).toBeNull();
+  });
+
+  it('renders $$ ... $$ within a line as display math', () => {
+    const root = dom(render('so $$x^2$$ holds'));
+    expect(root.querySelector('p .katex-display')).not.toBeNull();
+    expect(root.querySelector('p')?.textContent).not.toContain('$');
+  });
+
+  it('does not let an unclosed $$ swallow later sections', () => {
+    const root = dom(render('$$\nx\n\n# Heading\n\ncost $$'));
+    expect(root.querySelector('h1')?.textContent).toBe('Heading');
+  });
+
+  it('does not leak the TeX source into the MathML', () => {
+    const math = dom(render('$x^2$')).querySelector('math');
+    expect(math?.textContent).not.toContain('x^2');
+  });
+
+  it('renders the sample document math without errors', () => {
+    const root = dom(render(SAMPLE_DOCUMENT));
+    expect(root.querySelectorAll('.katex')).toHaveLength(2);
+    expect(root.querySelector('.katex-error')).toBeNull();
+  });
+
+  it('reports invalid latex instead of throwing', () => {
+    const root = dom(render('```latex\n\\frac{\n```'));
+    expect(root.querySelector('.katex-error')).not.toBeNull();
   });
 });

@@ -48,6 +48,16 @@ def fibonacci(n):
         a, b = b, a + b
 \`\`\`
 
+## Math
+
+Write LaTeX inline, like Euler's identity $e^{i\\pi} + 1 = 0$, or as a display block:
+
+$$
+\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}
+$$
+
+Fenced \`latex\` (or \`math\`) code blocks are rendered as math too.
+
 ## Extras
 
 <details>

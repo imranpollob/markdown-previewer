@@ -1,4 +1,5 @@
 import { SITE_URL } from '../config';
+import { version as katexVersion } from 'katex';
 import brandCss from '../styles/brand.css?inline';
 import highlightCss from '../styles/highlight.css?inline';
 import markdownCss from '../styles/markdown.css?inline';
@@ -20,6 +21,7 @@ export function buildStandaloneHtml(title: string, bodyHtml: string): string {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Markdown Previewer (${SITE_URL})">
 <title>${escapeHtml(title)}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@${katexVersion}/dist/katex.min.css">
 <style>
 ${brandCss}
 ${markdownCss}
