@@ -1,0 +1,192 @@
+[
+  {
+    "priority": 1,
+    "repo": "bangla-quran",
+    "title": "Bangla Quran Reader",
+    "category": "Reading",
+    "type": "online",
+    "url": "https://banglaquran.app",
+    "hue": 160,
+    "glyph": "📖"
+  },
+  {
+    "priority": 2,
+    "repo": "text-diff-checker",
+    "title": "Text Diff Checker",
+    "category": "Writing",
+    "type": "online",
+    "url": "https://imranpollob.github.io/text-diff-checker/",
+    "hue": 10,
+    "glyph": "🔀"
+  },
+  {
+    "priority": 3,
+    "repo": "markdown-previewer",
+    "title": "Markdown Previewer",
+    "category": "Writing",
+    "type": "online",
+    "url": "https://imranpollob.github.io/markdown-previewer/",
+    "hue": 265,
+    "glyph": "📝"
+  },
+  {
+    "priority": 4,
+    "repo": "snippet-notes",
+    "title": "Snippet – Rich Text Notes",
+    "category": "Productivity",
+    "type": "online",
+    "url": "https://imranpollob.github.io/snippet-notes/",
+    "hue": 45,
+    "glyph": "✂️"
+  },
+  {
+    "priority": 5,
+    "repo": "crypto-chart-viewer",
+    "title": "Crypto Chart Viewer",
+    "category": "Finance",
+    "type": "online",
+    "url": "https://imranpollob.github.io/crypto-chart-viewer",
+    "hue": 140,
+    "glyph": "📈"
+  },
+  {
+    "priority": 6,
+    "repo": "pdf-text-to-speech-reader",
+    "title": "PDF Text-to-Speech Reader",
+    "category": "Reading",
+    "type": "online",
+    "url": "https://imranpollob.github.io/pdf-text-to-speech-reader/",
+    "hue": 0,
+    "glyph": "🔊"
+  },
+  {
+    "priority": 7,
+    "repo": "word-character-counter",
+    "title": "Word and Character Counter",
+    "category": "Writing",
+    "type": "online",
+    "url": "https://imranpollob.github.io/word-character-counter/",
+    "hue": 215,
+    "glyph": "🔢"
+  },
+  {
+    "priority": 8,
+    "repo": "mental-math-trainer",
+    "title": "Mental Math Trainer",
+    "category": "Learning",
+    "type": "online",
+    "url": "https://imranpollob.github.io/mental-math-trainer/",
+    "hue": 30,
+    "glyph": "🧮"
+  },
+  {
+    "priority": 9,
+    "repo": "bibtex-to-bibitem",
+    "title": "BibTeX to Bibitem Converter",
+    "category": "Writing",
+    "type": "online",
+    "url": "https://imranpollob.github.io/bibtex-to-bibitem/",
+    "hue": 285,
+    "glyph": "📚"
+  },
+  {
+    "priority": 10,
+    "repo": "black-screen-online",
+    "title": "Black Screen Online",
+    "category": "Productivity",
+    "type": "online",
+    "url": "https://imranpollob.github.io/black-screen-online/",
+    "hue": 230,
+    "glyph": "⬛"
+  },
+  {
+    "priority": 11,
+    "repo": "online-spelling-quiz",
+    "title": "Online Spelling Quiz",
+    "category": "Learning",
+    "type": "online",
+    "url": "https://imranpollob.github.io/online-spelling-quiz/",
+    "hue": 330,
+    "glyph": "🔤"
+  },
+  {
+    "priority": 12,
+    "repo": "github-profile-analyzer",
+    "title": "GitHub Profile Analyzer",
+    "category": "Development",
+    "type": "online",
+    "url": "https://imranpollob.github.io/github-profile-analyzer/",
+    "hue": 250,
+    "glyph": "🐙"
+  },
+  {
+    "priority": 12,
+    "repo": "online-trivia-quiz",
+    "title": "Online Trivia Quiz",
+    "category": "Learning",
+    "type": "online",
+    "url": "https://imranpollob.github.io/online-trivia-quiz/",
+    "hue": 55,
+    "glyph": "❓"
+  },
+  {
+    "priority": 14,
+    "repo": "color-shade-generator",
+    "title": "Color Shade Generator",
+    "category": "Design",
+    "type": "online",
+    "url": "https://imranpollob.github.io/color-shade-generator/",
+    "hue": 320,
+    "glyph": "🎨"
+  },
+  {
+    "priority": 15,
+    "repo": "lorem-ipsum-generator",
+    "title": "Lorem Ipsum Generator",
+    "category": "Writing",
+    "type": "online",
+    "url": "https://imranpollob.github.io/lorem-ipsum-generator/",
+    "hue": 190,
+    "glyph": "¶"
+  },
+  {
+    "priority": 1,
+    "repo": "pomodoro-timer",
+    "title": "Pomodoro Timer",
+    "category": "Productivity",
+    "type": "install",
+    "url": "https://github.com/imranpollob/pomodoro-timer/releases",
+    "hue": 15,
+    "glyph": "🍅"
+  },
+  {
+    "priority": 2,
+    "repo": "note-cli",
+    "title": "Note CLI",
+    "category": "Productivity",
+    "type": "install",
+    "url": "https://www.npmjs.com/package/node-note-cli",
+    "hue": 170,
+    "glyph": "🗒️"
+  },
+  {
+    "priority": 3,
+    "repo": "github-star-calculator",
+    "title": "GitHub Star Calculator",
+    "category": "Development",
+    "type": "install",
+    "url": "https://pypi.org/project/gitstar/",
+    "hue": 48,
+    "glyph": "⭐"
+  },
+  {
+    "priority": 4,
+    "repo": "slugcopy",
+    "title": "Slugcopy",
+    "category": "Development",
+    "type": "install",
+    "url": "https://www.npmjs.com/package/slugcopy",
+    "hue": 205,
+    "glyph": "🔗"
+  }
+]

@@ -157,6 +157,24 @@ svg { flex: none; }
 
 .btn--icon { width: 36px; padding: 0; }
 
+/* Tools launcher (launcher.css) restyled to match the header buttons. */
+.header-actions .bl-toggle {
+  width: 36px;
+  height: 36px;
+  color: var(--color-text);
+  background: var(--pane-bg);
+  transition: background-color 120ms, border-color 120ms, color 120ms;
+}
+.header-actions .bl-toggle:hover,
+.header-actions .bl-toggle[aria-expanded="true"] {
+  color: var(--accent-text);
+  border-color: var(--color-primary);
+}
+.header-actions .bl-toggle[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--pane-bg));
+}
+.header-actions .bl-toggle svg { width: 18px; height: 18px; }
+
 .divider {
   width: 1px;
   height: 22px;
